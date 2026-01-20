@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HeadlineHub | Smart News </title>
+   <link rel="icon" type="image/png" sizes="32x32"
+      href="{{ url_for('static', filename='images/newspaper.png') }}">
+
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h2 class="brand">
+            <a href="/">📰 HeadlineHub</a>
+        </h2>
+
+
+        <div class="nav-links">
+            <a href="/" class="nav-item {% if not category %}active{% endif %}">Top</a>
+            <a href="/?category=business" class="nav-item {% if category == 'business' %}active{% endif %}">Business</a>
+            <a href="/?category=technology"
+                class="nav-item {% if category == 'technology' %}active{% endif %}">Technology</a>
+            <a href="/?category=sports" class="nav-item {% if category == 'sports' %}active{% endif %}">Sports</a>
+            <a href="/?category=health" class="nav-item {% if category == 'health' %}active{% endif %}">Health</a>
+        </div>
+
+
+        <form method="get" action="/" class="search-form">
+            <input type="text" name="q" placeholder="Search news..." value="{{ query or '' }}" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <button id="theme-toggle" class="theme-btn">🌙</button>
+
+    </nav>
+
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById("theme-toggle");
+        toggleBtn.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            toggleBtn.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+        });
+    </script>
+
+</body>
+
+</html>

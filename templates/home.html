@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>
+    {% if query %}
+        Search results for "{{ query }}"
+    {% elif category %}
+        {{ category | capitalize }} News
+    {% else %}
+        Top Headlines
+    {% endif %}
+</h1>
+
+<div class="news-grid">
+    {% for article in articles %}
+    <div class="news-card">
+        {% if article.urlToImage %}
+            <img src="{{ article.urlToImage }}">
+        {% endif %}
+
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.description }}</p>
+        <small>Source: {{ article.source.name }}</small>
+        <br><br>
+        <a href="{{ article.url }}" target="_blank">Read more</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% if page * 12 < total_results %}
+<div class="load-more">
+    <a href="/?page={{ page + 1 }}{% if category %}&category={{ category }}{% endif %}{% if query %}&q={{ query }}{% endif %}">
+        Load More
+    </a>
+</div>
+{% endif %}
+
+{% endblock %}
